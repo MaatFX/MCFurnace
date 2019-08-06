@@ -1,0 +1,10 @@
+{
+  "parent": "block/orientable",
+
+  "textures": {
+
+    "top": "mcfurnace:block/basic_furnace/basic_furnace_top",
+    "side": "mcfurnace:block/basic_furnace/basic_furnace_side",
+    "front": "mcfurnace:block/basic_furnace/basic_furnace_front_on"
+  }
+}

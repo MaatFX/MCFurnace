@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "a#a",
+    "#i#",
+    "a#a"
+  ],
+
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+
+    "i": {
+      "item": "mcfurnace:basic_furnace"
+    },
+
+    "a": {
+      "item": "minecraft:gold_block"
+    }
+  },
+
+  "result": {
+    "item": "mcfurnace:gold_furnace"
+  }
+}
