@@ -44,8 +44,7 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
 
     private static final int COOK_SPEED = 4;
     private static final int ADDITIONAL_RECIPE_OUTPUT = 2; // in this case, it doubles the furnace output
-
-
+    
     protected final IIntArray furnaceData = new IIntArray() {
         public int get(int index) {
             switch(index) {
