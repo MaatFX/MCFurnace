@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "   ",
+    " ab"
+  ],
+
+  "key": {
+    "a": {
+      "item": "minecraft:charcoal"
+    },
+
+    "b": {
+      "item": "minecraft:magma_block"
+    }
+  },
+
+  "result": {
+    "item": "mcfurnace:magma_charcoal"
+  }
+}

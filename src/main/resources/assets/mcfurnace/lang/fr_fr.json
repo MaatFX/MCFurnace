@@ -1,5 +1,8 @@
 {
   "block.mcfurnace.basic_furnace": "Fourneau en fer",
   "block.mcfurnace.gold_furnace": "Fourneau en or",
-  "block.mcfurnace.diamond_furnace": "Fourneau en diamant"
+  "block.mcfurnace.diamond_furnace": "Fourneau en diamant",
+
+  "item.mcfurnace.magma_coal": "Charbon magmatisé",
+  "item.mcfurnace.magma_charcoal" : "Charbon de bois magmatisé"
 }

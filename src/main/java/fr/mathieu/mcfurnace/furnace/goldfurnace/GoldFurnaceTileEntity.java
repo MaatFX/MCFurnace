@@ -1,6 +1,6 @@
 package fr.mathieu.mcfurnace.furnace.goldfurnace;
 
-import fr.mathieu.mcfurnace.utils.CustomBlocksRegister;
+import fr.mathieu.mcfurnace.utils.MCFurnaceBlocksRegistered;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.BlastFurnaceContainer;
 import net.minecraft.inventory.container.Container;
@@ -11,7 +11,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class GoldFurnaceTileEntity extends AbstractGoldFurnaceTileEntity {
 
     public GoldFurnaceTileEntity() {
-        super(CustomBlocksRegister.GOLD_FURNACE_TE, IRecipeType.SMELTING);
+        super(MCFurnaceBlocksRegistered.GOLD_FURNACE_TE, IRecipeType.SMELTING);
     }
 
     @Override

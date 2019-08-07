@@ -1,5 +1,8 @@
 {
   "block.mcfurnace.basic_furnace": "Iron Furnace",
   "block.mcfurnace.gold_furnace": "Gold Furnace",
-  "block.mcfurnace.diamond_furnace": "Diamond Furnace"
+  "block.mcfurnace.diamond_furnace": "Diamond Furnace",
+
+  "item.mcfurnace.magma_coal": "Magma Coal",
+  "item.mcfurnace.magma_charcoal" : "Magma Charcoal"
 }

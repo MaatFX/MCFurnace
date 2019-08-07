@@ -1,6 +1,6 @@
 package fr.mathieu.mcfurnace.furnace.basicfurnace;
 
-import fr.mathieu.mcfurnace.utils.CustomBlocksRegister;
+import fr.mathieu.mcfurnace.utils.MCFurnaceBlocksRegistered;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.FurnaceContainer;
@@ -12,7 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 public class BasicFurnaceTileEntity extends AbstractBasicFurnaceTileEntity {
 
     public BasicFurnaceTileEntity() {
-        super(CustomBlocksRegister.BASIC_FURNACE_TE, IRecipeType.SMELTING);
+        super(MCFurnaceBlocksRegistered.BASIC_FURNACE_TE, IRecipeType.SMELTING);
     }
 
     @Override
