@@ -4,19 +4,28 @@ import fr.mathieu.mcfurnace.furnace.basicfurnace.BasicFurnaceBlock;
 import fr.mathieu.mcfurnace.furnace.basicfurnace.BasicFurnaceTileEntity;
 import fr.mathieu.mcfurnace.furnace.diamondfurnace.DiamondFurnaceBlock;
 import fr.mathieu.mcfurnace.furnace.diamondfurnace.DiamondFurnaceTileEntity;
+
+import fr.mathieu.mcfurnace.furnace.diamondfurnace.container.DiamondFurnaceContainer;
+import fr.mathieu.mcfurnace.furnace.diamondfurnace.gui.DiamondFurnaceScreen;
 import fr.mathieu.mcfurnace.furnace.goldfurnace.GoldFurnaceBlock;
 import fr.mathieu.mcfurnace.furnace.goldfurnace.GoldFurnaceTileEntity;
+import fr.mathieu.mcfurnace.furnace.goldfurnace.container.GoldFurnaceContainer;
+import fr.mathieu.mcfurnace.furnace.goldfurnace.gui.GoldFurnaceScreen;
 import fr.mathieu.mcfurnace.items.MagmaCharcoal;
 import fr.mathieu.mcfurnace.items.MagmaCoal;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ObjectHolder;
 
 
@@ -36,6 +45,8 @@ public class MCFurnaceBlocksRegistered {
     @ObjectHolder(MCFurnaceMain.MOD_ID + ":diamond_furnace")
     public static DiamondFurnaceBlock DIAMOND_FURNACE = null;
 
+    // items
+
     @ObjectHolder(MCFurnaceMain.MOD_ID + ":magma_coal")
     public static MagmaCoal MAGMA_COAL = null;
 
@@ -47,6 +58,11 @@ public class MCFurnaceBlocksRegistered {
     public static TileEntityType<GoldFurnaceTileEntity> GOLD_FURNACE_TE = null;
 
     public static TileEntityType<DiamondFurnaceTileEntity> DIAMOND_FURNACE_TE = null;
+
+
+    public static ContainerType<DiamondFurnaceContainer> DIAMOND_FURNACE_CONTAINER = null;
+
+    public static ContainerType<GoldFurnaceContainer> GOLD_FURNACE_CONTAINER = null;
 
     @SubscribeEvent
     public static void registerBlock(final RegistryEvent.Register<Block> registryEvent) {
@@ -99,7 +115,6 @@ public class MCFurnaceBlocksRegistered {
 
         registryEvent.getRegistry().register(new BlockItem(DIAMOND_FURNACE,
                 new Item.Properties().group(ItemGroup.DECORATIONS)).setRegistryName(DIAMOND_FURNACE.getRegistryName()));
-
     }
 
     @SubscribeEvent
@@ -115,6 +130,25 @@ public class MCFurnaceBlocksRegistered {
         DIAMOND_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte2");
 
         registryEvent.getRegistry().registerAll(BASIC_FURNACE_TE, GOLD_FURNACE_TE, DIAMOND_FURNACE_TE);
+
+    }
+
+    @SubscribeEvent
+    public static void registerContainerType(final RegistryEvent.Register<ContainerType<?>> event) {
+        DIAMOND_FURNACE_CONTAINER = IForgeContainerType.create(DiamondFurnaceContainer::new);
+        DIAMOND_FURNACE_CONTAINER.setRegistryName(MCFurnaceMain.MOD_ID, "container");
+
+        GOLD_FURNACE_CONTAINER = IForgeContainerType.create(GoldFurnaceContainer::new);
+        GOLD_FURNACE_CONTAINER.setRegistryName(MCFurnaceMain.MOD_ID, "container1");
+
+        event.getRegistry().registerAll(DIAMOND_FURNACE_CONTAINER, GOLD_FURNACE_CONTAINER);
+    }
+
+    @SubscribeEvent
+    public static void setup(FMLClientSetupEvent event) {
+        ScreenManager.registerFactory(DIAMOND_FURNACE_CONTAINER, DiamondFurnaceScreen::new);
+
+        ScreenManager.registerFactory(GOLD_FURNACE_CONTAINER, GoldFurnaceScreen::new);
 
     }
 

@@ -1,5 +1,6 @@
 package fr.mathieu.mcfurnace.furnace.diamondfurnace;
 
+import fr.mathieu.mcfurnace.furnace.diamondfurnace.container.DiamondFurnaceContainer;
 import fr.mathieu.mcfurnace.utils.MCFurnaceBlocksRegistered;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -22,7 +23,7 @@ public class DiamondFurnaceTileEntity extends AbstractDiamondFurnaceTileEntity {
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new FurnaceContainer(id, player, this, this.furnaceData);
+        return new DiamondFurnaceContainer(id, player, this, this.furnaceData);
     }
 
 

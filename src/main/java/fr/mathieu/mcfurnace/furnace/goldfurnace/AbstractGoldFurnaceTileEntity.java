@@ -36,7 +36,7 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
     private static final int[] SLOTS_UP = new int[]{0};
     private static final int[] SLOTS_DOWN = new int[]{2, 1};
     private static final int[] SLOTS_HORIZONTAL = new int[]{1};
-    private NonNullList<ItemStack> items = NonNullList.withSize(3, ItemStack.EMPTY);
+    private NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
     private int burnTime;
     private int recipesUsed;
     private int cookTime;
@@ -264,6 +264,10 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
 
     }
 
+    public boolean isOutputFull(ItemStack itemStackOutput) {
+        return itemStackOutput.getCount() == 64;
+    }
+
     protected boolean canSmelt(@Nullable IRecipe<?> recipeIn) {
         if (!this.items.get(0).isEmpty() && recipeIn != null) {
             ItemStack itemstack = recipeIn.getRecipeOutput();
@@ -271,14 +275,17 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
                 return false;
             } else {
                 ItemStack itemstack1 = this.items.get(2);
-                if (itemstack1.isEmpty()) {
+                ItemStack itemStack2 = this.items.get(3);
+
+                if (itemstack1.isEmpty() || itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemstack1.isItemEqual(itemstack)) {
+                } else if (itemstack1.isItemEqual(itemstack) && !isOutputFull(itemstack1)) {
+                    return true;
+                }  else if (itemStack2.isItemEqual(itemstack) && !isOutputFull(itemStack2)) {
+                    return true;
+                }
+                else {
                     return false;
-                } else if (itemstack1.getCount() + itemstack.getCount() <= this.getInventoryStackLimit() && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) { // Forge fix: make furnace respect stack sizes in furnace recipes
-                    return true;
-                } else {
-                    return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize(); // Forge fix: make furnace respect stack sizes in furnace recipes
                 }
             }
         } else {
@@ -292,26 +299,25 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
             ItemStack itemstack = this.items.get(0);
             ItemStack itemstack1 = p_214007_1_.getRecipeOutput();
 
-            itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
-
             ItemStack itemstack2 = this.items.get(2);
+            ItemStack itemStack3 = this.items.get(3);
 
             if (itemstack2.isEmpty()) {
+
+                itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
                 this.items.set(2, itemstack1.copy());
 
-            } else if (itemstack2.getItem() == itemstack1.getItem()) {
-                LogManager.getLogger().info(itemstack1.getCount());
+            } else if (itemstack2.getItem() == itemstack1.getItem() && !isOutputFull(itemstack2)) {
+
                 itemstack2.grow(ADDITIONAL_RECIPE_OUTPUT);
+            } else if (itemStack3.isEmpty()) {
+                itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
+                this.items.set(3, itemstack1.copy());
+            } else if (itemStack3.getItem() == itemstack1.getItem() && !isOutputFull(itemStack3)) {
+                itemStack3.grow(ADDITIONAL_RECIPE_OUTPUT);
             }
 
             if (!this.world.isRemote) {
-
-                itemstack1.setCount(1); // back to default value
-
-                /* for some reasons when I leave setCount(2) it breaks the other furnaces
-                  I suspect p_214007_1_.getRecipeOutput() to be the cause because the IRecipe reference
-                  ( and so the ItemStack reference ) is provided by a global recipe manager used by other
-                  FurnaceTileEntity class :( */
 
                 this.setRecipeUsed(p_214007_1_);
             }
@@ -355,21 +361,14 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
      * Returns true if automation can insert the given item in the given slot from the given side.
      */
     public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-        return this.isItemValidForSlot(index, itemStackIn);
+        return false;
     }
 
     /**
      * Returns true if automation can extract the given item in the given slot from the given side.
      */
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-        if (direction == Direction.DOWN && index == 1) {
-            Item item = stack.getItem();
-            if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
-                return false;
-            }
-        }
-
-        return true;
+        return false;
     }
 
     /**

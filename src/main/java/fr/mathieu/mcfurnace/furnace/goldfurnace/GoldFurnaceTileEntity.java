@@ -1,5 +1,6 @@
 package fr.mathieu.mcfurnace.furnace.goldfurnace;
 
+import fr.mathieu.mcfurnace.furnace.goldfurnace.container.GoldFurnaceContainer;
 import fr.mathieu.mcfurnace.utils.MCFurnaceBlocksRegistered;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.BlastFurnaceContainer;
@@ -21,6 +22,6 @@ public class GoldFurnaceTileEntity extends AbstractGoldFurnaceTileEntity {
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new BlastFurnaceContainer(id, player, this, this.furnaceData);
+        return new GoldFurnaceContainer(id, player, this, this.furnaceData);
     }
 }

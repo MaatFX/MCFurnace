@@ -25,6 +25,7 @@ import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
+import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -205,6 +206,7 @@ public abstract class AbstractBasicFurnaceTileEntity extends LockableTileEntity 
     }
 
     public void tick() {
+
         boolean flag = this.isBurning();
         boolean flag1 = false;
         if (this.isBurning()) {
