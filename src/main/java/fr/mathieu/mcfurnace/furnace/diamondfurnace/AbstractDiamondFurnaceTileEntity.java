@@ -293,26 +293,19 @@ public abstract class AbstractDiamondFurnaceTileEntity extends LockableTileEntit
             ItemStack itemstack = this.items.get(0);
             ItemStack itemstack1 = p_214007_1_.getRecipeOutput();
 
-            itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
-
             ItemStack itemstack2 = this.items.get(2);
 
             if (itemstack2.isEmpty()) {
+                itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
                 this.items.set(2, itemstack1.copy());
 
             } else if (itemstack2.getItem() == itemstack1.getItem()) {
-                LogManager.getLogger().info(itemstack1.getCount());
+
                 itemstack2.grow(ADDITIONAL_RECIPE_OUTPUT);
             }
 
             if (!this.world.isRemote) {
 
-                itemstack1.setCount(1); // back to default value
-
-                /* for some reasons when I leave setCount(2) it breaks the other furnaces
-                  I suspect p_214007_1_.getRecipeOutput() to be the cause because the IRecipe reference
-                  ( and so the ItemStack reference ) is provided by a global recipe manager used by other
-                  FurnaceTileEntity class :( */
 
                 this.setRecipeUsed(p_214007_1_);
             }

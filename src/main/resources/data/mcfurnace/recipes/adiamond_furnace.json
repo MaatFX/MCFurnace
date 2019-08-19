@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#i#",
+    " # "
+  ],
+
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    },
+
+    "i": {
+      "item": "mcfurnace:diamond_furnace"
+    }
+  },
+
+  "result": {
+    "item": "mcfurnace:adiamond_furnace"
+  }
+}

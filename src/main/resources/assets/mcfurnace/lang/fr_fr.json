@@ -3,6 +3,9 @@
   "block.mcfurnace.gold_furnace": "Fourneau en or",
   "block.mcfurnace.diamond_furnace": "Fourneau en diamant",
 
+  "block.mcfurnace.agold_furnace": "Fourneau avancé en or",
+  "block.mcfurnace.adiamond_furnace": "Fourneau avancé en diamant",
+
   "item.mcfurnace.magma_coal": "Charbon magmatisé",
   "item.mcfurnace.magma_charcoal" : "Charbon de bois magmatisé"
 }

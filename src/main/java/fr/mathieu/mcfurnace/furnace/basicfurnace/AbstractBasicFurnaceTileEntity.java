@@ -6,10 +6,7 @@ import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IRecipeHelperPopulator;
-import net.minecraft.inventory.IRecipeHolder;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -20,6 +17,7 @@ import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -41,6 +39,7 @@ public abstract class AbstractBasicFurnaceTileEntity extends LockableTileEntity 
     private int cookTimeTotal;
 
     private static final int COOK_SPEED = 3;
+    private static final int ADDITIONAL_RECIPE_OUTPUT = 1;
 
 
     protected final IIntArray furnaceData = new IIntArray() {
@@ -284,13 +283,19 @@ public abstract class AbstractBasicFurnaceTileEntity extends LockableTileEntity 
 
     private void func_214007_c(@Nullable IRecipe<?> p_214007_1_) {
         if (p_214007_1_ != null && this.canSmelt(p_214007_1_)) {
+
             ItemStack itemstack = this.items.get(0);
+
             ItemStack itemstack1 = p_214007_1_.getRecipeOutput();
+
             ItemStack itemstack2 = this.items.get(2);
+
             if (itemstack2.isEmpty()) {
+
+                itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
                 this.items.set(2, itemstack1.copy());
             } else if (itemstack2.getItem() == itemstack1.getItem()) {
-                itemstack2.grow(itemstack1.getCount());
+                itemstack2.grow(ADDITIONAL_RECIPE_OUTPUT);
             }
 
             if (!this.world.isRemote) {
@@ -455,6 +460,7 @@ public abstract class AbstractBasicFurnaceTileEntity extends LockableTileEntity 
     }
 
     public void onCrafting(PlayerEntity player) {
+
     }
 
     public void func_213995_d(PlayerEntity p_213995_1_) {

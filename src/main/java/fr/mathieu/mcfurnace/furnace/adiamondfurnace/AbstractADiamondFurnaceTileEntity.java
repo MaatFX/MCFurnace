@@ -1,4 +1,4 @@
-package fr.mathieu.mcfurnace.furnace.goldfurnace;
+package fr.mathieu.mcfurnace.furnace.adiamondfurnace;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -31,31 +31,31 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity {
+public abstract class AbstractADiamondFurnaceTileEntity extends LockableTileEntity implements ISidedInventory, IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity {
 
     private static final int[] SLOTS_UP = new int[]{0};
     private static final int[] SLOTS_DOWN = new int[]{2, 1};
     private static final int[] SLOTS_HORIZONTAL = new int[]{1};
-    private NonNullList<ItemStack> items = NonNullList.withSize(3, ItemStack.EMPTY);
+    private NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
     private int burnTime;
     private int recipesUsed;
     private int cookTime;
     private int cookTimeTotal;
 
-    private static final int COOK_SPEED = 4;
-    private static final int ADDITIONAL_RECIPE_OUTPUT = 2; // in this case, it doubles the furnace output
+    private static final int COOK_SPEED = 7;
+    private static final int ADDITIONAL_RECIPE_OUTPUT = 4; // in this case, it doubles the furnace output
     
     protected final IIntArray furnaceData = new IIntArray() {
         public int get(int index) {
             switch(index) {
                 case 0:
-                    return AbstractGoldFurnaceTileEntity.this.burnTime;
+                    return AbstractADiamondFurnaceTileEntity.this.burnTime;
                 case 1:
-                    return AbstractGoldFurnaceTileEntity.this.recipesUsed;
+                    return AbstractADiamondFurnaceTileEntity.this.recipesUsed;
                 case 2:
-                    return AbstractGoldFurnaceTileEntity.this.cookTime;
+                    return AbstractADiamondFurnaceTileEntity.this.cookTime;
                 case 3:
-                    return AbstractGoldFurnaceTileEntity.this.cookTimeTotal;
+                    return AbstractADiamondFurnaceTileEntity.this.cookTimeTotal;
                 default:
                     return 0;
             }
@@ -64,29 +64,29 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
         public void set(int index, int value) {
             switch(index) {
                 case 0:
-                    AbstractGoldFurnaceTileEntity.this.burnTime = value;
+                    AbstractADiamondFurnaceTileEntity.this.burnTime = value;
                     break;
                 case 1:
-                    AbstractGoldFurnaceTileEntity.this.recipesUsed = value;
+                    AbstractADiamondFurnaceTileEntity.this.recipesUsed = value;
                     break;
                 case 2:
-                    AbstractGoldFurnaceTileEntity.this.cookTime = value;
+                    AbstractADiamondFurnaceTileEntity.this.cookTime = value;
                     break;
                 case 3:
-                    AbstractGoldFurnaceTileEntity.this.cookTimeTotal = value;
+                    AbstractADiamondFurnaceTileEntity.this.cookTimeTotal = value;
 
             }
 
         }
 
         public int size() {
-            return 4;
+            return 8;
         }
     };
     private final Map<ResourceLocation, Integer> field_214022_n = Maps.newHashMap();
     protected final IRecipeType<? extends AbstractCookingRecipe> recipeType;
 
-    protected AbstractGoldFurnaceTileEntity(TileEntityType<?> tileTypeIn, IRecipeType<? extends AbstractCookingRecipe> recipeTypeIn) {
+    protected AbstractADiamondFurnaceTileEntity(TileEntityType<?> tileTypeIn, IRecipeType<? extends AbstractCookingRecipe> recipeTypeIn) {
         super(tileTypeIn);
         this.recipeType = recipeTypeIn;
 
@@ -216,20 +216,30 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
         }
 
         if (!this.world.isRemote) {
+
             ItemStack itemstack = this.items.get(1);
-            if (this.isBurning() || !itemstack.isEmpty() && !this.items.get(0).isEmpty()) {
+
+            if (this.isBurning() || !itemstack.isEmpty()) {
+
                 IRecipe<?> irecipe = this.world.getRecipeManager().getRecipe((IRecipeType<AbstractCookingRecipe>)this.recipeType, this, this.world).orElse(null);
+
                 if (!this.isBurning() && this.canSmelt(irecipe)) {
+
                     this.burnTime = this.getBurnTime(itemstack);
                     this.recipesUsed = this.burnTime;
+
                     if (this.isBurning()) {
+
                         flag1 = true;
+
                         if (itemstack.hasContainerItem())
                             this.items.set(1, itemstack.getContainerItem());
                         else
                         if (!itemstack.isEmpty()) {
+
                             Item item = itemstack.getItem();
                             itemstack.shrink(1);
+
                             if (itemstack.isEmpty()) {
                                 this.items.set(1, itemstack.getContainerItem());
                             }
@@ -262,22 +272,87 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
             this.markDirty();
         }
 
+        if (canReplaceOutputItemStack())
+            replaceOutputItemStack(); // fix to make multi output furnaces usable by hoppers
+
+        if (canReplaceInputItemStack())
+            replaceInputItemStack(); // fix to make multi input furnaces usable by hoppers
+
+    }
+
+    public boolean canReplaceInputItemStack() {
+
+        ItemStack itemStack = this.items.get(0);
+        ItemStack itemStack4 = this.items.get(4);
+        ItemStack itemStack3  = this.items.get(3);
+
+        if (itemStack.getCount() == 64 && (itemStack4.isEmpty() || itemStack3.isEmpty()))
+            return true;
+        else
+            return false;
+    }
+
+    public void replaceInputItemStack() {
+        ItemStack itemStack = this.items.get(0);
+        ItemStack itemStack4 = this.items.get(4);
+        ItemStack itemStack3 = this.items.get(3);
+
+        this.items.set(3, itemStack4.copy());
+        itemStack4.setCount(0);
+
+        this.items.set(4, itemStack.copy());
+        itemStack.setCount(0);
+
+    }
+
+    public void replaceOutputItemStack() {
+
+        ItemStack itemStack5 = this.items.get(5);
+        ItemStack itemStack6 = this.items.get(6);
+
+        this.items.set(2, itemStack5.copy());
+        itemStack5.setCount(0);
+
+        this.items.set(5, itemStack6.copy());
+        itemStack6.setCount(0);
+    }
+
+    public boolean canReplaceOutputItemStack() {
+
+        ItemStack itemStack2 = this.items.get(2);
+
+        return itemStack2.isEmpty();
     }
 
     protected boolean canSmelt(@Nullable IRecipe<?> recipeIn) {
-        if (!this.items.get(0).isEmpty() && recipeIn != null) {
+        if (!this.items.get(0).isEmpty() && !this.items.get(3).isEmpty() && !this.items.get(4).isEmpty() && recipeIn != null) {
             ItemStack itemstack = recipeIn.getRecipeOutput();
             if (itemstack.isEmpty()) {
                 return false;
             } else {
-                ItemStack itemstack1 = this.items.get(2);
-                if (itemstack1.isEmpty()) {
+                ItemStack itemstack1 = this.items.get(2); // first output
+                ItemStack itemstack2 = this.items.get(5); // second output
+                ItemStack itemstack3 = this.items.get(6); // third output
+
+                ItemStack itemstack4 = this.items.get(0); // first input
+                ItemStack itemstack5 = this.items.get(3); // second input
+                ItemStack itemStack6 = this.items.get(4); // third input
+
+                if (((itemstack1.isEmpty() && (itemstack2.getCount() < 64 && itemstack3.getCount() < 64)) ||
+                        (itemstack2.isEmpty() && (itemstack1.getCount() < 64 && itemstack3.getCount() < 64)) ||
+                        (itemstack3.isEmpty() && (itemstack1.getCount() < 64 && itemstack2.getCount() < 64)))
+                                && (itemstack4.getItem() == itemstack5.getItem() && itemstack4.getItem() == itemStack6.getItem())) {
+                    LogManager.getLogger().info("IF 1 : TRUE");
                     return true;
-                } else if (!itemstack1.isItemEqual(itemstack)) {
+                } else if (!itemstack1.isItemEqual(itemstack) || !itemstack2.isItemEqual(itemstack) || !itemstack3.isItemEqual(itemstack)) {
+                    LogManager.getLogger().info("IF 2 : FALSE");
                     return false;
-                } else if (itemstack1.getCount() + itemstack.getCount() <= 64) {
+                } else if (itemstack1.getCount() + itemstack.getCount() <= 64 && itemstack2.getCount() + itemstack.getCount() <= 64 && itemstack3.getCount() + itemstack.getCount() <= 64
+                        && itemstack4.isItemEqual(itemstack5) && itemstack4.isItemEqual(itemStack6)) {
+                    LogManager.getLogger().info("IF 3 : TRUE");
                     return true;
                 } else {
+                    LogManager.getLogger().info("IF 4 : FALSE");
                     return false;
                 }
             }
@@ -289,19 +364,34 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
     private void func_214007_c(@Nullable IRecipe<?> p_214007_1_) {
         if (p_214007_1_ != null && this.canSmelt(p_214007_1_)) {
 
-            ItemStack itemstack = this.items.get(0);
+            ItemStack itemstack = this.items.get(0); // input
+            ItemStack itemstack3 = this.items.get(3); // input
+            ItemStack itemstack4 = this.items.get(4); // input
             ItemStack itemstack1 = p_214007_1_.getRecipeOutput();
 
-            ItemStack itemstack2 = this.items.get(2);
+            ItemStack itemstack2 = this.items.get(2); // output
+            ItemStack itemstack5 = this.items.get(5); // output
+            ItemStack itemstack6 = this.items.get(6); // output
+
+            itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
 
             if (itemstack2.isEmpty()) {
 
-                itemstack1.setCount(ADDITIONAL_RECIPE_OUTPUT);
                 this.items.set(2, itemstack1.copy());
-
             } else if (itemstack2.getItem() == itemstack1.getItem()) {
-
                 itemstack2.grow(ADDITIONAL_RECIPE_OUTPUT);
+            }
+
+            if (itemstack5.isEmpty()) {
+                this.items.set(5, itemstack1.copy());
+            } else if(itemstack5.getItem() == itemstack1.getItem()) {
+                itemstack5.grow(ADDITIONAL_RECIPE_OUTPUT);
+            }
+
+            if (itemstack6.isEmpty()) {
+                this.items.set(6, itemstack1.copy());
+            } else if(itemstack6.getItem() == itemstack1.getItem()) {
+                itemstack6.grow(ADDITIONAL_RECIPE_OUTPUT);
             }
 
             if (!this.world.isRemote) {
@@ -309,11 +399,9 @@ public abstract class AbstractGoldFurnaceTileEntity extends LockableTileEntity i
                 this.setRecipeUsed(p_214007_1_);
             }
 
-            if (itemstack.getItem() == Blocks.WET_SPONGE.asItem() && !this.items.get(1).isEmpty() && this.items.get(1).getItem() == Items.BUCKET) {
-                this.items.set(1, new ItemStack(Items.WATER_BUCKET));
-            }
-
             itemstack.shrink(1);
+            itemstack3.shrink(1);
+            itemstack4.shrink(1);
         }
     }
 
