@@ -7,6 +7,6 @@ public class MCFurnaceMain  {
 
     public static final String MOD_ID = "mcfurnace";
 
-    
+
 
 }
