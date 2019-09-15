@@ -1,23 +1,24 @@
 package fr.mathieu.mcfurnace.utils;
 
-import fr.mathieu.mcfurnace.furnace.adiamondfurnace.ADiamondFurnaceBlock;
-import fr.mathieu.mcfurnace.furnace.adiamondfurnace.ADiamondFurnaceTileEntity;
-import fr.mathieu.mcfurnace.furnace.adiamondfurnace.container.ADiamondFurnaceContainer;
-import fr.mathieu.mcfurnace.furnace.adiamondfurnace.gui.ADiamondFurnaceScreen;
-import fr.mathieu.mcfurnace.furnace.agoldfurnace.AGoldFurnaceBlock;
-import fr.mathieu.mcfurnace.furnace.agoldfurnace.AGoldFurnaceTileEntity;
-import fr.mathieu.mcfurnace.furnace.agoldfurnace.container.AGoldFurnaceContainer;
-import fr.mathieu.mcfurnace.furnace.agoldfurnace.gui.AGoldFurnaceScreen;
-import fr.mathieu.mcfurnace.furnace.basicfurnace.BasicFurnaceBlock;
-import fr.mathieu.mcfurnace.furnace.basicfurnace.BasicFurnaceTileEntity;
-import fr.mathieu.mcfurnace.furnace.diamondfurnace.DiamondFurnaceBlock;
-import fr.mathieu.mcfurnace.furnace.diamondfurnace.DiamondFurnaceTileEntity;
-import fr.mathieu.mcfurnace.furnace.goldfurnace.GoldFurnaceBlock;
-import fr.mathieu.mcfurnace.furnace.goldfurnace.GoldFurnaceTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.basicfurnace.BasicFurnaceBlock;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.basicfurnace.BasicFurnaceTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.diamondfurnace.DiamondFurnaceBlock;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.diamondfurnace.DiamondFurnaceTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.goldfurnace.GoldFurnaceBlock;
+import fr.mathieu.mcfurnace.furnace.simplefurnace.goldfurnace.GoldFurnaceTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.basicgenerator.BasicGenerator;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.basicgenerator.BasicGeneratorTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.diamondgenerator.DiamondGenerator;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.diamondgenerator.DiamondGeneratorTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.goldgenerator.GoldGenerator;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.goldgenerator.GoldGeneratorTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.irongenerator.IronGenerator;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.irongenerator.IronGeneratorTileEntity;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.model.container.SimpleGeneratorContainer;
+import fr.mathieu.mcfurnace.furnace.simplegenerator.model.gui.SimpleGeneratorScreen;
+import fr.mathieu.mcfurnace.items.MCFurnaceCard;
 import fr.mathieu.mcfurnace.items.MagmaCharcoal;
 import fr.mathieu.mcfurnace.items.MagmaCoal;
-
-import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.ScreenManager;
@@ -41,80 +42,87 @@ public class MCFurnaceBlocks {
 
     // list of all blocks and their registry name
 
+    // furnaces
+
     @ObjectHolder(MCFurnaceMain.MOD_ID + ":basic_furnace")
-    public static BasicFurnaceBlock BASIC_FURNACE = null;
+    public static BasicFurnaceBlock BASIC_FURNACE;
 
     @ObjectHolder(MCFurnaceMain.MOD_ID + ":gold_furnace")
-    public static GoldFurnaceBlock GOLD_FURNACE = null;
+    public static GoldFurnaceBlock GOLD_FURNACE;
 
     @ObjectHolder(MCFurnaceMain.MOD_ID + ":diamond_furnace")
-    public static DiamondFurnaceBlock DIAMOND_FURNACE = null;
+    public static DiamondFurnaceBlock DIAMOND_FURNACE;
 
-    @ObjectHolder(MCFurnaceMain.MOD_ID + ":agold_furnace")
-    public static AGoldFurnaceBlock AGOLD_FURNACE = null;
+    //
 
-    @ObjectHolder(MCFurnaceMain.MOD_ID + ":adiamond_furnace")
-    public static ADiamondFurnaceBlock ADIAMOND_FURNACE = null;
+    // generators
 
-    @ObjectHolder(MCFurnaceMain.MOD_ID + ":magma_coal")
-    public static MagmaCoal MAGMA_COAL = null;
+    @ObjectHolder(MCFurnaceMain.MOD_ID + ":basic_generator")
+    public static BasicGenerator BASIC_GENERATOR;
 
-    @ObjectHolder(MCFurnaceMain.MOD_ID + ":magma_charcoal")
-    public static  MagmaCharcoal MAGMA_CHARCOAL = null;
+    @ObjectHolder(MCFurnaceMain.MOD_ID + ":iron_generator")
+    public static IronGenerator IRON_GENERATOR;
 
+    @ObjectHolder(MCFurnaceMain.MOD_ID + ":gold_generator")
+    public static GoldGenerator GOLD_GENERATOR;
 
-    public static TileEntityType<BasicFurnaceTileEntity> BASIC_FURNACE_TE = null;
-    public static TileEntityType<GoldFurnaceTileEntity> GOLD_FURNACE_TE = null;
-    public static TileEntityType<DiamondFurnaceTileEntity> DIAMOND_FURNACE_TE = null;
-    public static TileEntityType<AGoldFurnaceTileEntity> AGOLD_FURNACE_TE = null;
-    public static TileEntityType<ADiamondFurnaceTileEntity> ADIAMOND_FURNACE_TE = null;
+    @ObjectHolder(MCFurnaceMain.MOD_ID + ":diamond_generator")
+    public static DiamondGenerator DIAMOND_GENERATOR;
 
 
-    public static ContainerType<AGoldFurnaceContainer> AGOLD_FURNACE_C = null;
-    public static ContainerType<ADiamondFurnaceContainer> ADIAMOND_FURNACE_C = null;
 
+    //
 
-    public static AbstractFurnaceBlock[] blocks = {BASIC_FURNACE, GOLD_FURNACE, DIAMOND_FURNACE, AGOLD_FURNACE, ADIAMOND_FURNACE};
+    // tileEntityTypes
 
+    public static TileEntityType<BasicFurnaceTileEntity> BASIC_FURNACE_TE;
+    public static TileEntityType<GoldFurnaceTileEntity> GOLD_FURNACE_TE;
+    public static TileEntityType<DiamondFurnaceTileEntity> DIAMOND_FURNACE_TE;
+
+    public static TileEntityType<BasicGeneratorTileEntity> BASIC_GENERATOR_TE;
+    public static TileEntityType<IronGeneratorTileEntity> IRON_GENERATOR_TE;
+    public static TileEntityType<GoldGeneratorTileEntity> GOLD_GENERATOR_TE;
+    public static TileEntityType<DiamondGeneratorTileEntity> DIAMOND_GENERATOR_TE;
+
+    //
+
+    // containers
+
+    public static ContainerType<SimpleGeneratorContainer> SIMPLE_GENERATOR_C;
+
+    //
 
     @SubscribeEvent
-    public static void registerBlock(RegistryEvent.Register<Block> registryEvent) {
+    public static void registerBlocks(RegistryEvent.Register<Block> registryEvent) {
 
-        Block.Properties properties = Block.Properties.from(Blocks.FURNACE);
+        Block.Properties furnaceLikeProperties = Block.Properties.from(Blocks.FURNACE);
 
-        BASIC_FURNACE = new BasicFurnaceBlock(properties);
-        BASIC_FURNACE.setRegistryName("basic_furnace");
+        MCRegistryUtil.registerBlock(new BasicFurnaceBlock(furnaceLikeProperties), ":basic_furnace", registryEvent);
+        MCRegistryUtil.registerBlock(new GoldFurnaceBlock(furnaceLikeProperties), ":gold_furnace", registryEvent);
+        MCRegistryUtil.registerBlock(new DiamondFurnaceBlock(furnaceLikeProperties), ":diamond_furnace", registryEvent);
 
-        GOLD_FURNACE = new GoldFurnaceBlock(properties);
-        GOLD_FURNACE.setRegistryName("gold_furnace");
+        Block.Properties stoneLikeProperties = Block.Properties.from(Blocks.STONE);
 
-
-        DIAMOND_FURNACE = new DiamondFurnaceBlock(properties);
-        DIAMOND_FURNACE.setRegistryName("diamond_furnace");
-
-        AGOLD_FURNACE = new AGoldFurnaceBlock(properties);
-        AGOLD_FURNACE.setRegistryName("agold_furnace");
-
-        ADIAMOND_FURNACE = new ADiamondFurnaceBlock(properties);
-        ADIAMOND_FURNACE.setRegistryName("adiamond_furnace");
-
-        registryEvent.getRegistry().registerAll(BASIC_FURNACE, GOLD_FURNACE, DIAMOND_FURNACE, AGOLD_FURNACE,
-                ADIAMOND_FURNACE);
+        MCRegistryUtil.registerBlock(new BasicGenerator(stoneLikeProperties), ":basic_generator", registryEvent);
+        MCRegistryUtil.registerBlock(new IronGenerator(stoneLikeProperties), ":iron_generator", registryEvent);
+        MCRegistryUtil.registerBlock(new GoldGenerator(stoneLikeProperties), ":gold_generator", registryEvent);
+        MCRegistryUtil.registerBlock(new DiamondGenerator(stoneLikeProperties), ":diamond_generator", registryEvent);
 
     }
 
     @SubscribeEvent
-    public static void registerItem(RegistryEvent.Register<Item> registryEvent) {
+    public static void registerItems(RegistryEvent.Register<Item> registryEvent) {
 
         Item.Properties properties = new Item.Properties().group(ItemGroup.MATERIALS);
 
-        MAGMA_COAL = new MagmaCoal(properties);
-        MAGMA_COAL.setRegistryName("magma_coal");
+        MCRegistryUtil.registerItem(new MagmaCoal(properties), ":magma_coal", registryEvent);
+        MCRegistryUtil.registerItem(new MagmaCharcoal(properties), ":magma_charcoal", registryEvent);
 
-        MAGMA_CHARCOAL = new MagmaCharcoal(properties);
-        MAGMA_CHARCOAL.setRegistryName("magma_charcoal");
+        JSONFileGenerator jsonFileGenerator = new JSONFileGenerator();
+        MCFurnaceCard[] cards = jsonFileGenerator.generate(false);
 
-        registryEvent.getRegistry().registerAll(MAGMA_COAL, MAGMA_CHARCOAL);
+        registryEvent.getRegistry().registerAll(cards);
+
     }
 
     @SubscribeEvent
@@ -123,55 +131,41 @@ public class MCFurnaceBlocks {
         Item.Properties properties = new Item.Properties().group(ItemGroup.DECORATIONS);
 
         registryEvent.getRegistry().register(new BlockItem(BASIC_FURNACE, properties).setRegistryName(BASIC_FURNACE.getRegistryName()));
-
         registryEvent.getRegistry().register(new BlockItem(GOLD_FURNACE, properties).setRegistryName(GOLD_FURNACE.getRegistryName()));
-
         registryEvent.getRegistry().register(new BlockItem(DIAMOND_FURNACE, properties).setRegistryName(DIAMOND_FURNACE.getRegistryName()));
 
-        registryEvent.getRegistry().register(new BlockItem(AGOLD_FURNACE, properties).setRegistryName(AGOLD_FURNACE.getRegistryName()));
-
-        registryEvent.getRegistry().register(new BlockItem(ADIAMOND_FURNACE, properties).setRegistryName(ADIAMOND_FURNACE.getRegistryName()));
-
-
-    }
-
-    @SubscribeEvent
-    public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> registryEvent) {
-
-        BASIC_FURNACE_TE = TileEntityType.Builder.create(BasicFurnaceTileEntity::new, BASIC_FURNACE).build(null);
-        BASIC_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte");
-
-        GOLD_FURNACE_TE = TileEntityType.Builder.create(GoldFurnaceTileEntity::new, GOLD_FURNACE).build(null);
-        GOLD_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte1");
-
-        DIAMOND_FURNACE_TE = TileEntityType.Builder.create(DiamondFurnaceTileEntity::new, DIAMOND_FURNACE).build(null);
-        DIAMOND_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte2");
-
-        AGOLD_FURNACE_TE = TileEntityType.Builder.create(AGoldFurnaceTileEntity::new, AGOLD_FURNACE).build(null);
-        AGOLD_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte3");
-
-        ADIAMOND_FURNACE_TE = TileEntityType.Builder.create(ADiamondFurnaceTileEntity::new, ADIAMOND_FURNACE).build(null);
-        ADIAMOND_FURNACE_TE.setRegistryName(MCFurnaceMain.MOD_ID, "myte4");
-
-        registryEvent.getRegistry().registerAll(BASIC_FURNACE_TE, GOLD_FURNACE_TE, DIAMOND_FURNACE_TE, AGOLD_FURNACE_TE, ADIAMOND_FURNACE_TE);
+        registryEvent.getRegistry().register(new BlockItem(BASIC_GENERATOR, properties).setRegistryName(BASIC_GENERATOR.getRegistryName()));
+        registryEvent.getRegistry().register(new BlockItem(IRON_GENERATOR, properties).setRegistryName(IRON_GENERATOR.getRegistryName()));
+        registryEvent.getRegistry().register(new BlockItem(GOLD_GENERATOR, properties).setRegistryName(GOLD_GENERATOR.getRegistryName()));
+        registryEvent.getRegistry().register(new BlockItem(DIAMOND_GENERATOR, properties).setRegistryName(DIAMOND_GENERATOR.getRegistryName()));
 
     }
 
     @SubscribeEvent
-    public static void registerContainerType(RegistryEvent.Register<ContainerType<?>> registryEvent) {
-        AGOLD_FURNACE_C = IForgeContainerType.create(AGoldFurnaceContainer::new);
-        AGOLD_FURNACE_C.setRegistryName("container1");
+    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> registryEvent) {
 
-        ADIAMOND_FURNACE_C = IForgeContainerType.create(ADiamondFurnaceContainer::new);
-        ADIAMOND_FURNACE_C.setRegistryName("container2");
+        BASIC_FURNACE_TE = MCRegistryUtil.registerTileEntity(BasicFurnaceTileEntity::new, "myte", BASIC_FURNACE, registryEvent);
+        GOLD_FURNACE_TE = MCRegistryUtil.registerTileEntity(GoldFurnaceTileEntity::new, "myte1", GOLD_FURNACE, registryEvent);
+        DIAMOND_FURNACE_TE = MCRegistryUtil.registerTileEntity(DiamondFurnaceTileEntity::new, "myte2", DIAMOND_FURNACE, registryEvent);
 
-        registryEvent.getRegistry().registerAll(AGOLD_FURNACE_C, ADIAMOND_FURNACE_C);
+        BASIC_GENERATOR_TE = MCRegistryUtil.registerTileEntity(BasicGeneratorTileEntity::new, "myte3", BASIC_GENERATOR, registryEvent);
+        IRON_GENERATOR_TE = MCRegistryUtil.registerTileEntity(IronGeneratorTileEntity::new, "myte4", IRON_GENERATOR, registryEvent);
+        GOLD_GENERATOR_TE = MCRegistryUtil.registerTileEntity(GoldGeneratorTileEntity::new, "myte5", GOLD_GENERATOR, registryEvent);
+        DIAMOND_GENERATOR_TE = MCRegistryUtil.registerTileEntity(DiamondGeneratorTileEntity::new, "myte6", DIAMOND_GENERATOR, registryEvent);
+
+    }
+
+    @SubscribeEvent
+    public static void registerContainerTypes(RegistryEvent.Register<ContainerType<?>> registryEvent) {
+        SIMPLE_GENERATOR_C = IForgeContainerType.create(SimpleGeneratorContainer::new);
+        SIMPLE_GENERATOR_C.setRegistryName("container");
+        registryEvent.getRegistry().register(SIMPLE_GENERATOR_C);
     }
 
     @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(AGOLD_FURNACE_C, AGoldFurnaceScreen::new);
-        ScreenManager.registerFactory(ADIAMOND_FURNACE_C, ADiamondFurnaceScreen::new);
+        ScreenManager.registerFactory(SIMPLE_GENERATOR_C, SimpleGeneratorScreen::new);
+
     }
 
 }

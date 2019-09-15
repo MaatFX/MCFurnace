@@ -1,0 +1,8 @@
+{
+  "block.mcfurnace.basic_furnace": "Железная Печь",
+  "block.mcfurnace.gold_furnace": "Золотая Печь",
+  "block.mcfurnace.diamond_furnace": "Алмазная Печь",
+
+  "item.mcfurnace.magma_coal": "Магматический Уголь",
+  "item.mcfurnace.magma_charcoal" : "Магматический Древесный Уголь"
+}

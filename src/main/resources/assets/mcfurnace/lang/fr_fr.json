@@ -3,6 +3,11 @@
   "block.mcfurnace.gold_furnace": "Fourneau en or",
   "block.mcfurnace.diamond_furnace": "Fourneau en diamant",
 
+  "block.mcfurnace.basic_generator": "Générateur classique",
+  "block.mcfurnace.iron_generator": "Générateur en fer",
+  "block.mcfurnace.gold_generator": "Générateur en or",
+  "block.mcfurnace.diamond_generator": "Générateur en diamant",
+
   "block.mcfurnace.agold_furnace": "Fourneau avancé en or",
   "block.mcfurnace.adiamond_furnace": "Fourneau avancé en diamant",
 

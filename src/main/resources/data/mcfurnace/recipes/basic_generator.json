@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#i#",
+    "###"
+  ],
+
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+
+    "i": {
+      "item": "minecraft:glass"
+    }
+  },
+
+  "result": {
+    "item": "mcfurnace:basic_generator"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#i#",
+    "aaa"
+  ],
+
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+
+    "i": {
+      "item": "mcfurnace:basic_generator"
+    },
+
+    "a": {
+      "item": "minecraft:iron_block"
+    }
+  },
+
+  "result": {
+    "item": "mcfurnace:iron_generator"
+  }
+}

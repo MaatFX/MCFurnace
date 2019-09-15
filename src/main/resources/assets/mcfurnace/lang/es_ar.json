@@ -1,0 +1,8 @@
+{
+  "block.mcfurnace.basic_furnace": "Horno de Hierro",
+  "block.mcfurnace.gold_furnace": "Horno de Oro",
+  "block.mcfurnace.diamond_furnace": "Horno de Diamante",
+
+  "item.mcfurnace.magma_coal": "Carbón de Magma",
+  "item.mcfurnace.magma_charcoal" : "Carbón Vegetal de Magma"
+}

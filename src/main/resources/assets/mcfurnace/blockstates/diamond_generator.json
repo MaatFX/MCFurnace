@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "mcfurnace:block/diamond_generator"
+    }
+  }
+}
